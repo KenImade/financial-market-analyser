@@ -118,4 +118,32 @@ class AlphaVantageAPI:
             raise ValueError(f"An error occurred while fetching data: {err}")
         except ValueError:
             raise ValueError("Invalid symbol please use a correct ticker symbol.")
+    
+    def get_company_overview_data(self, symbol: str) -> dict:
+        """
+        Gets the company information, financial ratios, and other key metrics for
+        the equity specified from the AlphaVantage website.
+
+        Args:
+            symbol: ticker name of stock.
         
+        Returns:
+            dict: Dictionary containing company information.
+        """
+        try:
+            data = self.fetch_data('OVERVIEW', symbol)
+            info_to_extract = [
+                "Symbol", "Name", "Description", "MarketCapitlization", "RevenueTTM",
+                "EPS", "PERatio", "Beta", "DividendYield"
+                ]
+            company_info = {}
+
+            for key, value in data.items():
+                if key in info_to_extract:
+                    company_info[key] = value
+            return company_info
+               
+        except RequestException as err:
+            raise ValueError(f"An error occurred while fetching data: {err}")
+        except ValueError:
+            raise ValueError("Invalid symbol please use a correct ticker symbol.")

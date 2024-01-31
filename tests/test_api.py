@@ -3,6 +3,7 @@ import unittest
 import json
 import pandas as pd
 from unittest.mock import patch
+from requests.exceptions import RequestException
 from pathlib import Path
 
 root_dir = Path(__file__).parent.parent
@@ -45,6 +46,21 @@ class TestAlphaVantageAPI(unittest.TestCase):
             self.api.get_daily_stock_data(invalid_symbol)
         self.assertIn("Invalid symbol please use a correct ticker symbol.", str(context.exception))
 
+    def test_valid_symbol(self):
+        # Test with a valid symbol
+        symbol = "AAPL"
+        result = self.api.get_company_overview_data(symbol)
+        self.assertIsInstance(result, dict)
+        self.assertIn("Name", result)
+        self.assertEqual(result["Symbol"], symbol)
+    
+    def test_network_error(self):
+        # Test for a network error (mocking it)
+        symbol = "AAPL"
+        with unittest.mock.patch.object(self.api, 'fetch_data', side_effect=RequestException("Network error")):
+            with self.assertRaises(ValueError) as context:
+                self.api.get_company_overview_data(symbol)
+            self.assertEqual(str(context.exception), "An error occurred while fetching data: Network error")
 
 
 if __name__ == "__main__":
