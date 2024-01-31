@@ -3,6 +3,7 @@
 ## Overview
 The Financial Market Analysis Tool is a Python-based application designed to retrieve and analyze financial market data. Leveraging the Alpha Vantage API, this tool provides capabilities for tracking stock and cryptocurrency prices, and implements data visualization techniques to showcase trends, patterns, and anomalies over time.
 
+```
 FinancialMarketAnalysisTool/
 │
 ├── src/                  # Source files
@@ -33,3 +34,4 @@ FinancialMarketAnalysisTool/
 ├── README.md             # Project overview and documentation
 │
 └── main.py               # Main application entry point
+```
