@@ -32,7 +32,7 @@ class DataTransformer():
         df2['stock_price'] = df2['stock_price'].apply(lambda x: round(float(x), 2))
         df2['date'] = pd.to_datetime(df2['date'])
 
-        self._save_to_csv(df2)
+        # self._save_to_csv(df2) testing code to examine output of transformation
 
         return df2.copy()
 
