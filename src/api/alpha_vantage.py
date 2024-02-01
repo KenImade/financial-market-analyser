@@ -3,7 +3,7 @@ from requests.exceptions import RequestException
 import pandas as pd
 
 from typing import Dict, Any
-from src.utils.config import ALPHA_VANTAGE_API_KEY
+# from src.utils.config import ALPHA_VANTAGE_API_KEY # activate when testing on local system
 
 class AlphaVantageAPI:
     '''
@@ -11,7 +11,7 @@ class AlphaVantageAPI:
     the Alpha Vantage website.
     '''
 
-    def __init__(self, api_key=ALPHA_VANTAGE_API_KEY):
+    def __init__(self, api_key):
         self.api_key = api_key
         self.base_url = "https://www.alphavantage.co/query"
     
@@ -67,9 +67,9 @@ class AlphaVantageAPI:
                         3. Invalid symbol
         """
         try:
-            data = self.fetch_data('TIME_SERIES_DAILY', symbol)
-            if 'Time Series (Daily)' in data:
-                return pd.DataFrame(data['Time Series (Daily)']).T
+            data = self.fetch_data('TIME_SERIES_INTRADAY', symbol, interval="60min")
+            if 'Time Series (60min)' in data:
+                return pd.DataFrame(data['Time Series (60min)']).T
             else:
                 raise ValueError("Data not found in the response.")
         except RequestException as err:
@@ -132,15 +132,17 @@ class AlphaVantageAPI:
         """
         try:
             data = self.fetch_data('OVERVIEW', symbol)
-            info_to_extract = [
-                "Symbol", "Name", "Description", "MarketCapitlization", "RevenueTTM",
-                "EPS", "PERatio", "Beta", "DividendYield"
-                ]
-            company_info = {}
+            # info_to_extract = [
+            #     "Symbol", "Name", "Description", "MarketCapitlization", "RevenueTTM",
+            #     "EPS", "PERatio", "Beta", "DividendYield"
+            #     ]
+            # company_info = {}
 
-            for key, value in data.items():
-                if key in info_to_extract:
-                    company_info[key] = value
+            # for key, value in data.items():
+            #     if key in info_to_extract:
+            #         company_info[key] = value
+
+            company_info = data
             return company_info
                
         except RequestException as err:
