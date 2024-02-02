@@ -26,6 +26,7 @@ from [Alpha Vantage](https://www.alphavantage.co/).
 
 1. Run the tool with command-line arguments:
 ```python main.py --api-key YOUR_API_KEY --symbol STOCK_SYMBOL```
+
 Replace `YOUR_API_KEY` with your Alpha Vantage API key and `STOCK_SYMBOL` with the stock symbol you want to analyze (e.g., AAPL for Apple Inc.). 
 
 ## Project Structure
